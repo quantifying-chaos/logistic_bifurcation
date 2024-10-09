@@ -3,3 +3,4 @@
 *.jpeg
 *.svg
 *.venv
+*__pycache__

@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
+from logistic import iterate_r
+
 
 #################
 # Global variables
@@ -20,25 +22,7 @@ prep_times = 500  # Number of iterations to ignore
 plot_times = 3000  # Number of iterations to plot
 
 
-def logistic(x, r):
-    return r*x*(1-x)
-
-
-def iterate_r(x_0, r, prep_times, plot_times):
-    val = np.random.uniform(0, 1)
-    for _ in range(prep_times):
-        val = logistic(val, r)
-
-    res = []
-    # ignore x_500, recording values from x_501
-    for _ in range(plot_times):
-        val = logistic(val, r)
-        res.append(val)
-
-    return res
-
 # Start of plotting
-
 
 marker_style = dict(linestyle=':', color='b',
                     markersize=0.001, fillstyle='full')
@@ -82,7 +66,10 @@ plt.xlabel('r', fontsize=15)
 plt.ylabel('x', fontsize=15)
 
 plt.xlim(r_low, r_high)
-# plt.show()
+plt.show()
 # plt.axis('off')
 # plt.gca().set_position([0, 0, 1, 1])
+
+# dpi = 2000 -> 28 MB image
+# dpi = 1000 -> 7 MB image
 plt.savefig("bifurcation.png", dpi=2000)

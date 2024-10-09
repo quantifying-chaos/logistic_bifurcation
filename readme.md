@@ -2,7 +2,7 @@
 
 This repository contains several independent python scripts on logistic functions.
 
-The script `./logistic_bifurcation.py` reproduce the logistic bifurcation diagram similar to figure 2.11 in [EO] (see references).
+The script `./src/logistic_bifurcation.py` reproduce the logistic bifurcation diagram similar to figure 2.11 in [EO][1] (see references).
 
 ## Build and Run instructions
 
@@ -18,4 +18,4 @@ To run on linux-wayland environment, set `QT_QPA_PLATFORM=xcb` before calling py
 
 ## References
 
-[EO]: Chaos in Dynamical Systems , Edward Ott, Cambridge University Press, 2002
+[1]: Chaos in Dynamical Systems , Edward Ott, Cambridge University Press, 2002

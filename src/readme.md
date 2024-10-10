@@ -14,4 +14,4 @@ If we plot r versus standard deviation of x, we should see a sharp change at the
 
 Just count the box (like a histogram).
 
-TODO: use mpmath package for higher precision.
+TODO: use [mpmath](https://mpmath.org/doc/current/mpmath.pdf) package for higher precision. 

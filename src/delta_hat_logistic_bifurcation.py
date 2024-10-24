@@ -23,8 +23,7 @@
 
 import numpy as np
 import math
-from logistic import iterate_r
-from utils import print_alert
+from utils import print_alert, iterate_r
 
 import matplotlib.pyplot as plt
 
@@ -49,7 +48,7 @@ UPPER_BOUND = 1
 LOWER_BOUND = 0
 
 
-def box_distri_count(vec):
+def box_distri_count(vec, threshold=2):
     """
     Input a vector v = [0,0,0,1,1,4,0,0,0,2,0]
     out put how many continuous, non-zero region there is.
@@ -59,7 +58,7 @@ def box_distri_count(vec):
     res = 0
     prev_is_zero = 1
     for i in vec:
-        if i == 0:
+        if i <= threshold:
             prev_is_zero = 1
             continue
         # i != 0
@@ -104,7 +103,7 @@ def get_rs_box_method(x_0, upper_bound, lower_bound):
     delta_r = 0.002
     iteration_times = 0
     wronged_times = 0
-    while len(res) < 8 and iteration_times < 1000000 and wronged_times < 10:
+    while len(res) < 9 and iteration_times < 1000000 and wronged_times < 6:
         r += delta_r
         iteration_times += 1
         n_centers = number_of_scattered_center(
@@ -117,18 +116,15 @@ def get_rs_box_method(x_0, upper_bound, lower_bound):
         #     res.append((n_centers, r))
         if n_centers < expected_peak_count*1.2 and n_centers > expected_peak_count * 0.8:
             res.append((n_centers, r))
+            print("r = " + str(r) + ", n_centers = " + str(n_centers))
             expected_peak_count *= 2
-            delta_r /= 2
-            acc /= 2
-            count_times += 200
-
-        if n_centers >= 2**10:
             delta_r /= 4
-            r -= delta_r
-            acc /= 2
+            acc /= 4
+            count_times += 500
+
+        if n_centers >= 2**(len(res)+2):
             print_alert("n_centers is " + str(n_centers))
-            wronged_times += 1
-            continue
+            break
 
     return res
 

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from logistic import iterate_r
+from utils import iterate_r
 
 
 #################
@@ -18,8 +18,8 @@ n_of_r = 3500  # Number of r values to try
 # init x
 x_0 = 0.5
 
-prep_times = 500  # Number of iterations to ignore
-plot_times = 3000  # Number of iterations to plot
+prep_times = 0  # Number of iterations to ignore
+plot_times = 1000  # Number of iterations to plot
 
 
 # Start of plotting
@@ -45,7 +45,7 @@ for r in r_vals:
     # plt.plot([r]*len(x), x, ',b')
     r_dummy = np.linspace(r, r, len(x))
     ax.scatter(r_dummy, x, c='tab:blue', s=l_size,
-               alpha=0.1, edgecolors='none', facecolors='tab:blue',
+               alpha=0.3, edgecolors='none', facecolors='tab:blue',
                marker='o')
 
 ax.plot(r_vals, 1 - 1/r_vals, color='r',
@@ -72,4 +72,4 @@ plt.show()
 
 # dpi = 2000 -> 28 MB image
 # dpi = 1000 -> 7 MB image
-plt.savefig("bifurcation.png", dpi=2000)
+# plt.savefig("bifurcation.png", dpi=2000)

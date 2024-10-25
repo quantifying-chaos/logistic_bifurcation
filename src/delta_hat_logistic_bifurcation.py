@@ -103,7 +103,7 @@ def get_rs_box_method(x_0, upper_bound, lower_bound):
     delta_r = 0.002
     iteration_times = 0
     wronged_times = 0
-    while len(res) < 9 and iteration_times < 1000000 and wronged_times < 6:
+    while len(res) < 7 and iteration_times < 100000 and wronged_times < 6:
         r += delta_r
         iteration_times += 1
         n_centers = number_of_scattered_center(

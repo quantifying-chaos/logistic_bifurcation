@@ -4,3 +4,4 @@
 *.svg
 *.venv
 *__pycache__
+*ipynb*

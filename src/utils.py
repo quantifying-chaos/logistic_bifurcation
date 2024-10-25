@@ -17,6 +17,10 @@ def print_alert(string):
     print(bcolors.FAIL + bcolors.BOLD + string + bcolors.NOC)
 
 
+def print_emph(string):
+    print(bcolors.WARNING + bcolors.BOLD + string + bcolors.NOC)
+
+
 def logistic(x, r):
     return r*x*(1-x)
 

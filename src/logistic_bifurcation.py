@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from utils import iterate_r
+# Custom modules
+from utils import iterate_r, logistic
 
 
 #################
@@ -21,7 +22,6 @@ x_0 = 0.5
 prep_times = 0  # Number of iterations to ignore
 plot_times = 1000  # Number of iterations to plot
 
-
 # Start of plotting
 
 marker_style = dict(linestyle=':', color='b',
@@ -36,10 +36,10 @@ for r in r_vals:
     # variable line size as for r <3.5 there are very few paths
     l_size = 0.05
     if r < 3.5:  # before 3.5 the system is rather stable
-        x = iterate_r(x_0, r, prep_times, 100)
+        x = iterate_r(logistic, x_0, r, prep_times, 100)
         l_size = 0.1
     else:
-        x = iterate_r(x_0, r, prep_times, plot_times)
+        x = iterate_r(logistic, x_0, r, prep_times, plot_times)
         l_size = 0.05
 
     # plt.plot([r]*len(x), x, ',b')

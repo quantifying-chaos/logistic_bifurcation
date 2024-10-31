@@ -25,10 +25,12 @@ def logistic(x, r):
     return r*x*(1-x)
 
 
-def iterate_r(x_0, r, prep_times, plot_times):
+def iterate_r(func, x_0, r, prep_times, plot_times):
     """
     Iterate the logistic function with initial value x_0 for r = r
-    x_1 = logistic(x_0,r), etc
+    x_1 = func(x_0,r), etc.
+
+    func shall have signature func(x, r) -> x, simliar to logistic function
 
     x_0 to x_{prep_times-1} are ignored.
     x_{prep_times} to x_{prep_times+plot_times-1} are recorded in res
@@ -36,39 +38,16 @@ def iterate_r(x_0, r, prep_times, plot_times):
     """
     val = x_0
     for _ in range(prep_times):
-        val = logistic(val, r)
+        val = func(val, r)
 
     res = []
     # ignore x_500, recording values from x_501
     for _ in range(plot_times):
-        val = logistic(val, r)
+        val = func(val, r)
         res.append(val)
 
     return res
 
-
-def iterate_r_fn_1d(x_0, r, fn, prep_times, plot_times):
-    """
-    Iterate the fn function with initial value x_0 for r = r
-    x_1 = logistic(x_0,r), etc
-
-    The fn shall have signature fn(x, r) -> x
-
-    x_0 to x_{prep_times-1} are ignored.
-    x_{prep_times} to x_{prep_times+plot_times-1} are recorded in res
-    and returned
-    """
-    val = x_0
-    for _ in range(prep_times):
-        val = fn(val, r)
-
-    res = []
-    # ignore x_500, recording values from x_501
-    for _ in range(plot_times):
-        val = fn(val, r)
-        res.append(val)
-
-    return res
 
 
 def graph_bifurcation(fn, x_0=0, r_start=0, r_end=4,
@@ -92,7 +71,7 @@ def graph_bifurcation(fn, x_0=0, r_start=0, r_end=4,
         if x_0 == 0:
             # random value from 0 to 1
             x_0 = np.random.uniform(0, 1)
-        x_values.extend(iterate_r_fn_1d(x_0, r, fn, prep_times, plot_times))
+        x_values.extend(iterate_r(fn, x_0, r, prep_times, plot_times))
         r_values.extend([r]*plot_times)
 
     if dimmmed == 0:
@@ -119,7 +98,36 @@ def graph_bifurcation(fn, x_0=0, r_start=0, r_end=4,
     if x_low is not None and x_high is not None:
         plt.ylim(x_low, x_high)
 
+    # plot line x = 0.5
+    # plt.axhline(y=0.5, color='r', linestyle='--',
+    #             linewidth=0.5, alpha=0.5, label='x = 0.5')
+    # plt.legend(loc='upper left')
+
     # plt.title('Bifurcation diagram')
     if saved_file_name:
         plt.savefig(saved_file_name, dpi=dpi)
-    plt.show()
+    print("Bifurcation diagram saved as", saved_file_name)
+    # plt.show()
+
+
+def find_cycles(f, prep_times, cycle_n, lower, upper, iters, thre):
+    def g(x, r):
+        tmp = x
+        for _ in range(cycle_n):
+            tmp = f(tmp, r)
+        return tmp
+
+    # get a starting point
+
+    for i in np.linspace(lower, upper, iters):
+        x = 0.5
+        for i in range(prep_times):
+            x = f(x, i)
+        res = g(x, i)
+        if abs(res - i) < thre:
+            print(f"cycle of length {cycle_n} found at {i} with value {res}")
+            print("cycle values:")
+            for _ in range(cycle_n):
+                res = f(res)
+                print(res)
+            return

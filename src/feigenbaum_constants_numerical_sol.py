@@ -40,6 +40,7 @@ def stable_orbit(r, x_init, f_cycle, thres, iter_times=10):
 
 
 # Do the calculation
+# This is the constants A_n
 A_list = [2, float(np.sqrt(5) + 1)]
 # start calculation with A_2 ~= 3.498553
 r_max = 3.58
@@ -64,6 +65,8 @@ while len(A_list) < 11 and r < r_max:
 
     r += delta
 
+
+print(f"Calculated A_n: {A_list}")
 
 feigenbuam_delta_list = [(A_list[i] - A_list[i - 1]) /
                          (A_list[i + 1] - A_list[i])
